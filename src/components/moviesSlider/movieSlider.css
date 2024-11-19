@@ -1,0 +1,33 @@
+
+.play-button {
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 0, 0, 0.682);
+    color: white;
+    border-radius:50%;
+    animation: pulse 3s infinite;
+  }
+ 
+  .play-button:hover{
+    background-color: rgba(255, 0, 0, 0.952);
+  }
+
+.play-button i{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+}
+
+@media screen and (max-width:500px){
+    .play-button {
+       
+        left: 40%;
+    }
+}
+ 

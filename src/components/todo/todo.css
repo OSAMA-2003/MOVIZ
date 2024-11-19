@@ -1,0 +1,39 @@
+.todo_container {
+    
+    background: linear-gradient(
+        200.6deg,
+        rgb(46, 2, 221) 20%,
+        rgb(4, 2, 30) 100.3%
+      );
+      background-size: cover;
+    width: 30%;
+    min-height: 600px;
+    border-radius: 10px;
+}
+
+.todoList ul{
+    padding: 0;
+}
+
+.content-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   width: 100%;
+ 
+
+
+}
+
+.todoList li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style-type: none;
+    color: #000;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,65 @@
+/** @format */
+
+
+  
+ 
+  .card-action {
+    position: relative;
+    float: right;
+    margin-top: -35px;
+    margin-right: 20px;
+    z-index: 2;
+    color: #dc381f;
+    background: #fff;
+    border-radius: 100%;
+    padding: 15px;
+    font-size: 15px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .card-action:hover {
+    color: #fff;
+    background: #dc381f;
+    animation: pulse 1.5s infinite;
+    cursor: pointer;
+  }
+  
+ 
+  
+  
+  .card2.active {
+    color: #fff;
+    background: #ff2200;
+  }
+ 
+  
+ 
+  
+  @keyframes pulse {
+    0% {
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+  
+    70% {
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      box-shadow: 0 0 0 15px rgba(247, 60, 60, 0.136);
+    }
+  
+    100% {
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+      box-shadow: 0 0 0 0 rgba(207, 9, 9, 0.816);
+    }
+  }
+  
+.back-btn{
+  position: absolute !important;
+}
