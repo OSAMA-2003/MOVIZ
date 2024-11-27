@@ -1,3 +1,46 @@
 footer{
     background-color: rgb(6, 6, 104);
 }
+
+
+footer{
+    padding-bottom: 80px;
+  }
+  footer img {
+    filter: drop-shadow(0px 1px 20px #0c51dc);
+  }
+  
+  .face:hover {
+    color: rgb(30, 84, 184);
+  }
+  .insta:hover {
+    color: rgb(184, 16, 184);
+  }
+  .twiter:hover {
+    color: rgb(5, 193, 244);
+  }
+  
+  .copyright{
+    background-color: #050153e5;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    
+    
+  }
+  
+  
+  
+  @media screen and (max-width: 1200px) {
+    .footer_content {
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+  
+    footer img {
+      margin: 30px 0 !important;
+    }
+  }
+  

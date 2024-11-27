@@ -3,66 +3,57 @@
 import { useState } from "react";
 import "./nav.css";
 import logo from "../../assets/logo.png";
-import { RiMenu3Line, RiCloseLine, RiSearchLine } from "react-icons/ri";
+import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
 
 const MyNav = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   const navigate = useNavigate();
 
+  // Function to close the menu
+  const closeMenu = () => {
+    setToggleMenu(false);
+  };
+
   return (
     <nav className="navbar">
+      <div className="logo mr-10 ">
+        <NavLink exact to="/" activeClassName="active">
+          <img src={logo} alt="logo" />
+        </NavLink>
+      </div>
+
       {/* Navbar Links */}
       <div className="navbar_links">
-        <div className="logo mr-10 ">
-          <img src={logo} alt="logo" />
-        </div>
-
-        {/* Navbar Links Container with <p> tags */}
         <ul className="navbar_links_container">
           <li>
-            <NavLink exact to="/" activeClassName="active">
-              Home
+            <NavLink exact to="/" activeClassName="active" onClick={closeMenu}>
+              Movies
             </NavLink>
           </li>
           <li>
-            <NavLink to="/toprated" activeClassName="active">
+            <NavLink to="/toprated" activeClassName="active" onClick={closeMenu}>
               Top-Rated
             </NavLink>
           </li>
           <li>
-            <NavLink to="/tvshows" activeClassName="active">
+            <NavLink to="/tvshows" activeClassName="active" onClick={closeMenu}>
               TV-Shows
             </NavLink>
           </li>
           <li>
-            <NavLink to="/favorites" activeClassName="active">
+            <NavLink to="/favorites" activeClassName="active" onClick={closeMenu}>
               Favorites
             </NavLink>
           </li>
         </ul>
       </div>
 
-      {/* Top Left*/}
-      <div className="navbar_sign ">
-        <form class="max-w-md mx-auto">
-          <div class="relative search mx-4">
-            <input
-              type="search"
-              id="default-search"
-              className="block w-full h-full p-2 ps-3 pe-5  rounded-1"
-              placeholder="what do you look for...."
-              required
-            />
-            <button type="submit" class=" btn  absolute">
-              <RiSearchLine />
-            </button>
-          </div>
-        </form>
-
+      <div className="navbar_sign">
         <Link to="/login ">
           <CgProfile className=" text-4xl text-blue-400 hover:text-blue-700 " />
         </Link>
@@ -87,56 +78,35 @@ const MyNav = () => {
         {toggleMenu && (
           <div className="menu_container">
             <div className="menu_container_links scale-up-center">
-
-            
-                 {/* Top Left*/}
-      <div className=" flex justify-between items-center ">
-        <form class=" mx-auto">
-          <div class="relative search ">
-            <input
-              type="search"
-              id="default-search"
-              className="block w-full h-full p-2 ps-3 pe-5  rounded-1"
-              placeholder="what do you look for...."
-              required
-            />
-            <button type="submit" class=" btn  absolute">
-              <RiSearchLine />
-            </button>
-          </div>
-        </form>
-        <Link to="/login " className="mx-3">
-          <CgProfile className=" text-4xl text-blue-400 hover:text-blue-700 " />
-        </Link>
-      </div>
-
-       
-
+              <div className="flex justify-end  items-left">
+                
+                <Link to="/login " className="mx-3">
+                  <CgProfile className=" text-4xl   text-blue-400 hover:text-blue-700 " />
+                </Link>
+              </div>
 
               <p>
-                <NavLink exact to="/" ClassName="active">
-                  Home
+                <NavLink exact to="/" activeClassName="active" onClick={closeMenu}>
+                  Movies
                 </NavLink>
               </p>
               <p>
-                <NavLink to="/toprated" activeClassName="active">
+                <NavLink to="/toprated" activeClassName="active" onClick={closeMenu}>
                   Top-Rated
                 </NavLink>
               </p>
               <p>
-                <NavLink to="/tvshows" activeClassName="active">
+                <NavLink to="/tvshows" activeClassName="active" onClick={closeMenu}>
                   TV-Shows
                 </NavLink>
               </p>
               <p>
-                <NavLink to="/favorites" ClassName="active">
+                <NavLink to="/favorites" activeClassName="active" onClick={closeMenu}>
                   Favorites
                 </NavLink>
               </p>
 
               <div className="menu_sign">
-
-
                 <Link to="/login">
                   <p>Sign in</p>
                 </Link>

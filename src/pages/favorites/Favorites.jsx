@@ -1,7 +1,7 @@
 /** @format */
 
 // src/Favorites.js
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -11,6 +11,11 @@ import { Link } from "react-router-dom";
 function Favorites() {
   // Access favorites from the Redux store
   const favorites = useSelector((state) => state.favorites);
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+  
 
   return (
     <section className="container favorites  ">
@@ -29,9 +34,9 @@ function Favorites() {
       </div>
 
       {favorites.length > 0 ? (
-        <Row xs={2} md={4}>
+        <Row xs={1} md={2} lg={4}>
           {favorites.map((movie) => (
-            <Col key={movie.id}>
+            <Col key={movie.id} className="px-5 px-md-2">
               <Card className="mb-5 border-black hover:scale-105 transition-transform duration-500 ease-in-out">
                 <Link to={`/movies/details/${movie.id}`}>
                   <Card.Img

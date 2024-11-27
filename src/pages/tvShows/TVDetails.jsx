@@ -14,6 +14,10 @@ function TVDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+
   useEffect(() => {
     const fetchShowDetails = async () => {
       try {
@@ -140,6 +144,7 @@ function TVDetails() {
                 boxShadow: '0px 3px 20px rgba(0, 0, 0, 0.6)',
               }}
             ></iframe>
+            
           </div>
         </div>
       )}

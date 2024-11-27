@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
-import "./movies.css";
-import axios from "axios";
+/** @format */
+
+import React, { useState, useEffect } from "react";
+import { instance } from "../../instance";
+import { SpinnerInfinity } from "spinners-react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -10,41 +12,51 @@ import {
   addFavorite,
   removeFavorite,
 } from "../reduxStore/slices/FavoriteSlice";
-import { instance } from "../../instance";
-import { SpinnerInfinity } from "spinners-react";
+import SearchBox from "../searchBox/SearchBox"; // Import the SearchBox component
+
+import "./movies.css"; // Your custom styles
 
 function Movies() {
-  const moviesApi = "/3/discover/movie?api_key=21994b44ea3a6af47ccef5404de143d5";
   const [movies, setMovies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page for pagination
-  const [loading, setLoading] = useState(false); // To track if the data is loading
-  const dispatch = useDispatch(); 
+  const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
-  const loader = useSelector((state)=>state.loader.loader)
+  const loader = useSelector((state) => state.loader.loader);
 
+  // Fetch movies based on search query or pagination
   useEffect(() => {
-    fetchMovies(currentPage);
-  }, [currentPage]);
+    const fetchMovies = async () => {
+      setLoading(true);
+      const searchApi = searchInput
+        ? `/3/search/movie?query=${searchInput}&api_key=21994b44ea3a6af47ccef5404de143d5`
+        : `/3/discover/movie?api_key=21994b44ea3a6af47ccef5404de143d5&page=${currentPage}`;
 
-  // Fetch movies for a specific page
-  const fetchMovies = async (page) => {
-    setLoading(true); // Set loading to true while fetching data
-    try {
-      const response = await instance.get(`${moviesApi}&page=${page}`);
-      // Only append new movies if the page is greater than 1
-      if (page > 1) {
-        setMovies((prevMovies) => [...prevMovies, ...response.data.results]); // Append new movies to existing list
-      } else {
-        setMovies(response.data.results); // For the first page, just replace the movies
+      try {
+        const { data } = await instance.get(searchApi);
+        if (searchInput || currentPage === 1) {
+          setMovies(data.results); // For search or first page load, reset the movie list
+        } else {
+          setMovies((prevMovies) => [...prevMovies, ...data.results]); // Append new movies on page change
+        }
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-    } finally {
-      setLoading(false); // Set loading to false once the fetching is done
-    }
+    };
+
+    fetchMovies();
+  }, [searchInput, currentPage]);
+
+  // Handle search input change
+  const handleSearchInputChange = (input) => {
+    setSearchInput(input);
+    setCurrentPage(1); // Reset to the first page on new search
   };
 
-  // Function to handle favorite toggle
+  // Toggle favorite status
   const toggleFavorite = (movie) => {
     const isFavorite = favorites.find((fav) => fav.id === movie.id);
     if (isFavorite) {
@@ -54,78 +66,71 @@ function Movies() {
     }
   };
 
-  // Array to track the active state for each card
-  const [activeCards, setActiveCards] = useState([false, false]);
-
-  // Function to toggle the "active" class for a specific card
-  const toggleActiveClass = (index) => {
-    const newActiveCards = [...activeCards];
-    newActiveCards[index] = !newActiveCards[index];
-    setActiveCards(newActiveCards);
-  };
-
   return (
+    <div className="container movies">
+      {/* Loader */}
+      {loader ? (
+        <div className="flex justify-center items-center h-[100vh]">
+          <SpinnerInfinity
+            size={90}
+            thickness={96}
+            speed={100}
+            color="rgba(57, 58, 172, 1)"
+            secondaryColor="rgba(172, 117, 57, 0.1)"
+          />
+        </div>
+      ) : (
+        <>
+          {/* Movies List */}
+          <h1 className="text-white my-5  text-center">
+            {searchInput ? "Search Results" : "The Latest Movies"}
+          </h1>
+          {/* Search Box Component */}
+          <div className=" mb-20">
+            <SearchBox onSearch={handleSearchInputChange} />
+          </div>
+          <Row xs={1} md={2} lg={4}>
+            {movies.map((movie) => (
+              <Col key={movie.id} className="px-5 px-md-2">
+                <Card className="mb-5 border-black border-2 rounded-xl hover:scale-105 transition-transform duration-500 ease-in-out">
+                  <Link to={`/movies/details/${movie.id}`}>
+                    <Card.Img
+                      variant="top"
+                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    />
+                  </Link>
+                  <Card.Body className="bg-black">
+                    <i
+                      className={`fa fa-heart card-action card2 ${
+                        favorites.find((fav) => fav.id === movie.id)
+                          ? "active"
+                          : ""
+                      }`}
+                      onClick={() => toggleFavorite(movie)}
+                    ></i>
+                    <Card.Title className="text-white my-4 fs-5 text-center">
+                      {movie.title}
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
 
-    <>
-    {loader?
-      <div className="flex justify-center items-center h-[100vh]">
-    <SpinnerInfinity size={90} thickness={96} speed={100} color="rgba(57, 58, 172, 1)" secondaryColor="rgba(172, 117, 57, 0.1)" />
+          {/* Load More Button */}
+          {!loading && !searchInput && (
+            <div className="text-center my-5">
+              <button
+                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+                className="btn text-white"
+              >
+                Load More
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
-     :
-     <div className="container movies">
-      <h1 className="text-white my-5 pb-5 text-center">The Latest Movies</h1>
-
-      <Row xs={2} md={4}>
-        {movies.map((movie) => (
-          <Col key={movie.id}>
-            <Card className="mb-5 border-black hover:scale-105 rounded-2xl transition-transform duration-500 ease-in-out">
-              <Link to={`/movies/details/${movie.id}`}>
-                <Card.Img
-                  variant="top"
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                />
-              </Link>
-              <Card.Body className="bg-black">
-                <i
-                  className={`fa fa-heart card-action card2 
-                    ${
-                      favorites.find((fav) => fav.id === movie.id)
-                        ? "active"
-                        : ""
-                    }
-                    ${activeCards[movie.id] ? "active" : ""} 
-                    `}
-                  onClick={() => {
-                    toggleFavorite(movie);
-                    toggleActiveClass(movie);
-                  }}
-                ></i>
-                <Card.Title className="text-white my-4 fs-5 text-center">
-                  {movie.title}
-                </Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      {/* Load More Button */}
-      <div className="text-center my-5">
-        {!loading && (
-          <button
-            onClick={() => setCurrentPage((prevPage) => prevPage + 1)} // Increment page to load more movies
-            className="btn text-white "
-          >
-            Load More
-          </button>
-        )}
-        {loading && <p className="text-white">Loading...</p>}
-      </div>
-    </div>
-    }
-    
-   
-    </>
   );
 }
 

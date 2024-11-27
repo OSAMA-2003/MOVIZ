@@ -7,11 +7,15 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useEffect } from "react";
 function Login() {
 
     const {register , handleSubmit , formState:{errors}} = useForm()
     const onSubmit = data => console.log(data)
-
+ 
+    useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
   return (
     <>
       <section className="container">

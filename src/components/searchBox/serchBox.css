@@ -1,0 +1,47 @@
+
+.search input {
+    border: 0.125em solid transparent;
+    --border-width: 0.125em;
+   
+    border-image: linear-gradient(-45deg, #1b5eda, rgb(55, 0, 118), #0d58e3);
+    border-image-slice: 1;
+    --border-color: linear-gradient(-45deg, #1b5eda, rgb(55, 0, 118), #0d58e3);
+    --curve-size: 0.5em;
+    background-color: #0e0c1f !important;
+    font-weight: 600;
+    color: #fff !important;
+    clip-path: polygon(
+        0 var(--border-width),
+        var(--border-width) 0,
+        100% 0,
+        100% calc(100% - var(--border-width)),
+        calc(100% - var(--border-width)) 100%,
+        0 100%
+    ) !important;
+    transition: border-color 0.3s ease; /* Smooth transition for the color change */
+}
+
+.search input::after {
+  clip-path: polygon(
+    var(--border-width) var(--border-width),
+    calc(100% - var(--border-width)) var(--border-width),
+    calc(100% - var(--border-width)) calc(100% - var(--border-width)),
+    var(--border-width) calc(100% - var(--border-width))
+);
+  
+}
+
+
+.search input:focus {
+    border-image: none; /* Remove the gradient border */
+    border-color: blue; /* Apply blue border color */
+    outline: none; /* Remove the default outline for a cleaner look */
+}
+
+
+  .search .btn{
+    position: absolute !important; ;
+    top: 12% ;
+    right: 2%;
+  }
+

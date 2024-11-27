@@ -24,6 +24,12 @@ function TopRated() {
   const favorites = useSelector((state) => state.favorites) // دا اللي بياخد الستيت من الستور ويخزنها عندو بحيث تكون متشافة
   const loader = useSelector((state)=>state.loader.loader)
   const topRated ="/3/movie/top_rated?api_key=21994b44ea3a6af47ccef5404de143d5"
+  
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+  
+  
   useEffect(() => {
     instance
       .get(
@@ -104,9 +110,9 @@ function TopRated() {
     <div className="container movies" >
       <h1 className="text-white my-5 pb-5 text-center">Top Rated Movies</h1>
 
-      <Row xs={2} md={4}>
+      <Row xs={1} md={2} lg={4}>
         {movies.map((movie) => (
-          <Col key={movie.id}>
+          <Col key={movie.id} className="px-5 px-md-2">
             <Card className="mb-5 border-black hover:scale-105 transition-transform duration-500 ease-in-out">
               <Link to={`/movies/details/${movie.id}`}>
                 <Card.Img

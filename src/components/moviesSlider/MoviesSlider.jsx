@@ -41,10 +41,7 @@ function MoviesSlider({ apiUrl }) {  // Accept the `apiUrl` prop
           <div
             className="movies-slider flex justify-between items-center row-cols-1 pt-24 row-cols-md-3 px-20 overflow-hidden"
             style={{
-              width: "100%",
-              height: "100vh",
-              margin: "10px",
-              borderRadius: "10px",
+              height:"100vh",
               backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -75,11 +72,11 @@ function MoviesSlider({ apiUrl }) {  // Accept the `apiUrl` prop
               <i className="fa fa-play"></i>
             </button>
 
-            <div className="z-10 pb-5 position-relative">
+            <div className=" poster-card  z-10 pb-5 position-relative">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
-                className="rounded-3xl py-2"
+                className="rounded-3xl py-2 w-75"
               />
             </div>
           </div>

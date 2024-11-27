@@ -7,12 +7,17 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { useEffect } from "react";
 
 function SignUp() {
 
     const {register , handleSubmit , formState:{errors} ,watch} = useForm()
     const password = watch("password"); // Watch the password field
     const onSubmit = data => console.log(data)
+    useEffect(()=>{
+      window.scrollTo(0,0)
+    },[])
+
   return (
     <>
       <section className="container">

@@ -5,11 +5,11 @@
   top: 0;
     display: flex;
     align-items: center !important;
-    justify-content: space-between;
+    justify-content: space-between !important;
     padding: 0.5rem 4rem !important;
     z-index: 1000;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: rgba(0, 0, 0, 0.796);
   
     
   }
@@ -77,78 +77,6 @@
     font-size: 23px;
     transition: 0.2s;
   }
-
-  .search input {
-    border: 0.125em solid transparent;
-    --border-width: 0.125em;
-    border-image: linear-gradient(-45deg, #1b5eda, rgb(55, 0, 118), #0d58e3);
-    border-image-slice: 1;
-    --border-color: linear-gradient(-45deg, #1b5eda, rgb(55, 0, 118), #0d58e3);
-    --curve-size: 0.5em;
-    background-color: #0e0c1f !important;
-    font-weight: 600;
-    color: #fff !important;
-    clip-path: polygon(
-        /* Top-left */ 0% var(--curve-size),
-        var(--curve-size) 0,
-        /* top-right */ 100% 0,
-        100% calc(100% - var(--curve-size)),
-        /* bottom-right 1 */ calc(100% - var(--curve-size)) 100%,
-        /* bottom-right 2 */ 0 100%
-    ) !important;
-    transition: border-color 0.3s ease; /* Smooth transition for the color change */
-}
-
-.search input::after {
-  background: red;
-  z-index: -1;
-  clip-path: polygon(
-    /* Top-left */ var(--border-width)
-      calc(var(--curve-size) + var(--border-width) * 0.5),
-    calc(var(--curve-size) + var(--border-width) * 0.5) var(--border-width),
-    /* top-right */ calc(100% - var(--border-width)) var(--border-width),
-    calc(100% - var(--border-width))
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
-    /* bottom-right 1 */
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
-      calc(100% - var(--border-width)),
-    /* bottom-right 2 */ var(--border-width) calc(100% - var(--border-width))
-  );
-  
-}
-
-.search input:where(:hover, :focus)::after {
-  clip-path: polygon(
-    /* Top-left */ calc(100% - var(--border-width))
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
-    calc(100% - var(--border-width)) var(--border-width),
-    /* top-right */ calc(100% - var(--border-width)) var(--border-width),
-    calc(100% - var(--border-width))
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
-    /* bottom-right 1 */
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
-      calc(100% - var(--border-width)),
-    /* bottom-right 2 */
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
-      calc(100% - var(--border-width))
-  );
-}
-
-
-
-.search input:focus {
-    border-image: none; /* Remove the gradient border */
-    border-color: blue; /* Apply blue border color */
-    outline: none; /* Remove the default outline for a cleaner look */
-}
-
-
-  .search .btn{
-    position: absolute !important; ;
-    top: 12% ;
-    right: 2%;
-  }
-
 
   
   .menu {

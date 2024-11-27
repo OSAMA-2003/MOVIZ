@@ -14,6 +14,10 @@ function MoviesDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
