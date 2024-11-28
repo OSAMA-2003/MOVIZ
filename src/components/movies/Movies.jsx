@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { instance } from "../../instance";
 import { SpinnerInfinity } from "spinners-react";
 import Card from "react-bootstrap/Card";
@@ -13,6 +13,7 @@ import {
   removeFavorite,
 } from "../reduxStore/slices/FavoriteSlice";
 import SearchBox from "../searchBox/SearchBox"; // Import the SearchBox component
+import { motion, useInView } from "framer-motion"; // Import Framer Motion
 
 import "./movies.css"; // Your custom styles
 
@@ -36,9 +37,9 @@ function Movies() {
       try {
         const { data } = await instance.get(searchApi);
         if (searchInput || currentPage === 1) {
-          setMovies(data.results); // For search or first page load, reset the movie list
+          setMovies(data.results); // Reset the movie list for a search or first page
         } else {
-          setMovies((prevMovies) => [...prevMovies, ...data.results]); // Append new movies on page change
+          setMovies((prevMovies) => [...prevMovies, ...data.results]); // Append new movies for pagination
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -66,6 +67,12 @@ function Movies() {
     }
   };
 
+  // Animation Variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 }, // Initial state: hidden and moved down
+    visible: { opacity: 1, y: 0 }, // Final state: visible and moved to position
+  };
+
   return (
     <div className="container movies">
       {/* Loader */}
@@ -82,37 +89,46 @@ function Movies() {
       ) : (
         <>
           {/* Movies List */}
-          <h1 className="text-white my-5  text-center">
+          <h1 className="text-white my-5 text-center">
             {searchInput ? "Search Results" : "The Latest Movies"}
           </h1>
           {/* Search Box Component */}
-          <div className=" mb-20">
+          <div className="mb-20">
             <SearchBox onSearch={handleSearchInputChange} />
           </div>
           <Row xs={1} md={2} lg={4}>
             {movies.map((movie) => (
               <Col key={movie.id} className="px-5 px-md-2">
-                <Card className="mb-5 border-black border-2 rounded-xl hover:scale-105 transition-transform duration-500 ease-in-out">
-                  <Link to={`/movies/details/${movie.id}`}>
-                    <Card.Img
-                      variant="top"
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    />
-                  </Link>
-                  <Card.Body className="bg-black">
-                    <i
-                      className={`fa fa-heart card-action card2 ${
-                        favorites.find((fav) => fav.id === movie.id)
-                          ? "active"
-                          : ""
-                      }`}
-                      onClick={() => toggleFavorite(movie)}
-                    ></i>
-                    <Card.Title className="text-white my-4 fs-5 text-center">
-                      {movie.title}
-                    </Card.Title>
-                  </Card.Body>
-                </Card>
+                {/* Motion Wrapper */}
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible" // Trigger animation on scroll
+                  viewport={{ once: true, amount: 0.1 }} // Trigger only once, when 10% of the card is visible
+                  variants={cardVariants}
+                  transition={{ duration: 0.5, ease: "easeOut" }} // Animation duration
+                >
+                  <Card className="mb-5 border-black border-2 rounded-xl hover:scale-105 transition-transform duration-500 ease-in-out">
+                    <Link to={`/movies/details/${movie.id}`}>
+                      <Card.Img
+                        variant="top"
+                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                      />
+                    </Link>
+                    <Card.Body className="bg-black">
+                      <i
+                        className={`fa fa-heart card-action card2 ${
+                          favorites.find((fav) => fav.id === movie.id)
+                            ? "active"
+                            : ""
+                        }`}
+                        onClick={() => toggleFavorite(movie)}
+                      ></i>
+                      <Card.Title className="text-white my-4 fs-5 text-center">
+                        {movie.title}
+                      </Card.Title>
+                    </Card.Body>
+                  </Card>
+                </motion.div>
               </Col>
             ))}
           </Row>
