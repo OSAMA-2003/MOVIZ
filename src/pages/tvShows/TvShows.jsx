@@ -10,7 +10,7 @@ import { SpinnerInfinity } from "spinners-react";
 import { instance } from "../../instance";
 import SearchBox from "../../components/searchBox/SearchBox";
 import MoviesSlider from "../../components/moviesSlider/MoviesSlider";
-
+import { motion } from "framer-motion"; // Import Framer Motion
 
 function TvShows() {
   const topShows = "/3/trending/tv/day?api_key=21994b44ea3a6af47ccef5404de143d5";
@@ -65,6 +65,13 @@ function TvShows() {
     fetchShows(1); // Fetch shows for the first page
   };
 
+  // Animation Variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 }, // Initial state: hidden and moved down
+    visible: { opacity: 1, y: 0 }, // Final state: visible and moved to position
+  };
+
+
   return (
     <>
       {loading ? (
@@ -79,42 +86,49 @@ function TvShows() {
         </div>
       ) : (
         <>
-        <MoviesSlider apiUrl={topShows} />
-       
-         
+          <MoviesSlider apiUrl={topShows} />
 
           <div className="container movies">
-          <h1 className="text-white my-5  text-center">
-          {searchInput ? `${searchInput}` : "TV Shows"}
-          </h1>
+            <h1 className="text-white my-5 text-center">
+              {searchInput ? `${searchInput}` : "TV Shows"}
+            </h1>
 
-           {/* SearchBox Component */}
-           <div className="max-w-md mx-auto mb-20">
-            <SearchBox onSearch={handleSearchChange} /> {/* Pass handler to SearchBox */}
-          </div>
+            {/* SearchBox Component */}
+            <div className="max-w-md mx-auto mb-20">
+              <SearchBox onSearch={handleSearchChange} /> {/* Pass handler to SearchBox */}
+            </div>
 
             <Row xs={1} md={2} lg={4}>
-              {shows.map((show) => (
+              {shows.map((show, index) => (
                 <Col key={show.id} className="px-5 px-md-2">
-                  <Card className="mb-5 border-black hover:scale-105 transition-transform duration-500 ease-in-out">
-                    <Link to={`/tvshows/details/${show.id}`}>
-                      <Card.Img
-                        variant="top"
-                        src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-                      />
-                    </Link>
-                    <Card.Body className="bg-black">
-                      <i
-                        className={`fa fa-heart card-action card2 ${
-                          favorites.find((fav) => fav.id === show.id) ? "active" : ""
-                        }`}
-                        onClick={() => toggleFavorite(show)}
-                      ></i>
-                      <Card.Title className="text-white my-4 fs-5 text-center">
-                        {show.name}
-                      </Card.Title>
-                    </Card.Body>
-                  </Card>
+                  {/* Motion Wrapper */}
+                  <motion.div
+                    initial="hidden"
+                  whileInView="visible" // Trigger animation on scroll
+                  viewport={{ once: true, amount: 0.1 }} // Trigger only once, when 10% of the card is visible
+                  variants={cardVariants}
+                  transition={{ duration: 0.5, ease: "easeOut" }} // Animation duration
+                >
+                    <Card className="mb-5 border-black hover:scale-105 transition-transform duration-500 ease-in-out">
+                      <Link to={`/tvshows/details/${show.id}`}>
+                        <Card.Img
+                          variant="top"
+                          src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                        />
+                      </Link>
+                      <Card.Body className="bg-black">
+                        <i
+                          className={`fa fa-heart card-action card2 ${
+                            favorites.find((fav) => fav.id === show.id) ? "active" : ""
+                          }`}
+                          onClick={() => toggleFavorite(show)}
+                        ></i>
+                        <Card.Title className="text-white my-4 fs-5 text-center">
+                          {show.name}
+                        </Card.Title>
+                      </Card.Body>
+                    </Card>
+                  </motion.div>
                 </Col>
               ))}
             </Row>
