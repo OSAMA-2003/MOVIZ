@@ -22,6 +22,9 @@ function TvShows() {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites); // Redux state for favorites
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // Fetch shows when page or search query changes
   useEffect(() => {
     fetchShows(currentPage);

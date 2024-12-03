@@ -26,6 +26,10 @@ function Movies() {
   const favorites = useSelector((state) => state.favorites);
   const loader = useSelector((state) => state.loader.loader);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Fetch movies based on search query or pagination
   useEffect(() => {
     const fetchMovies = async () => {

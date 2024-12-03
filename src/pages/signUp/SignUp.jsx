@@ -23,7 +23,7 @@ function SignUp() {
       <section className="container">
         <div className="row">
           <div className="col-lg-10 col-xl-9 mx-auto h-100">
-            <div className="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+            <div className="card flex-row  border-0 shadow rounded-3 overflow-hidden">
               <div className="card-img-left gradient__bg  d-flex  ">
               <div className="flex justify-center items-center">
               <img src={logo} className="w-50" />

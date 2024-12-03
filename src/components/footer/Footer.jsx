@@ -9,7 +9,7 @@ import { FaTwitter } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="container-fluid footer-section position-relative  ">
+    <footer className="container-fluid footer-section position-relative bottom-0  ">
       <div className=" footer_content d-column d-sm-flex flex-wrap justify-content-between align-items-center py-3  border-top">
       <ul className="nav col-md-4 justify-content-center align-items-center  list-unstyled d-flex">
           <strong className="text-white fs-3">Follow us</strong>
