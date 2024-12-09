@@ -49,7 +49,7 @@ function MoviesSlider({ apiUrl }) {
         
         modules={[Navigation, Autoplay]}
         className="mySwiper"
-        autoplay={{ delay: 25000 }}
+        autoplay={{ delay: 5000 }}
         onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)} // Update currentSlide on slide change
       >
         {movies.map((movie, index) => (
